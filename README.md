@@ -186,7 +186,7 @@ Each work stands alone. Together they form the Mythos-Class Security Stack.
 | Formal threat model | Complete |
 | Five-membrane consensus | Complete |
 | Cross-model verification theory | Complete |
-| Figures (5) | Complete |
+| Figures (6) | Complete |
 | LaTeX source | Complete |
 | Empirical red-team results | Preliminary — v1.1 |
 
