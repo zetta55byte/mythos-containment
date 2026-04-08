@@ -107,6 +107,18 @@ All figures are provided in [`figures/`](figures/) as SVG and PDF:
 
 These map directly to the figures referenced in the paper.
 
+### Ecosystem map
+
+![Mythos Research Ecosystem — Layered Stack](figures/fig6_ecosystem_stack.svg)
+
+**Figure 6.** The Mythos ecosystem integrates four layers:
+- **UAG** — theoretical foundation ([10.5281/zenodo.19448508](https://doi.org/10.5281/zenodo.19448508))
+- **Constitutional OS** — governance substrate ([github.com/zetta55byte/constitutional-os](https://github.com/zetta55byte/constitutional-os))
+- **CARE** — runtime enforcement ([github.com/zetta55byte/care](https://github.com/zetta55byte/care))
+- **Mythos-Class Containment Architecture** — full system ([github.com/zetta55byte/mythos-containment](https://github.com/zetta55byte/mythos-containment))
+
+All artifacts are cross-linked and archived under DOI [10.5281/zenodo.19464889](https://doi.org/10.5281/zenodo.19464889).
+
 ---
 
 ## Paper
