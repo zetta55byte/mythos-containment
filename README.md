@@ -1,3 +1,4 @@
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19464889.svg)](https://doi.org/10.5281/zenodo.19464889)
 # Mythos-Class Containment Architecture
 
 **Unified Governance, Geometry, and Runtime Enforcement for Frontier-Model Security**
