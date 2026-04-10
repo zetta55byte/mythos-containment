@@ -1,0 +1,60 @@
+% ============================================================
+% MCCA Paper — Appendix: v1.1 Upgrade Plan
+% ============================================================
+
+\appendix
+
+\section{v1.1 Upgrade Plan}
+\label{app:v11}
+
+This appendix describes the planned v1.1 expansion of the empirical
+validation suite and threat model registry.
+
+\subsection{Threshold calibration}
+
+The following metrics are observational at v0.1 and become gating in
+v1.1 once empirical baselines are established:
+
+\begin{itemize}
+  \item \textbf{Adversarial Detection Rate (HAR-SPEC-005, S3):}
+        ADR threshold raised from $\geq 0.60$ to a value calibrated
+        against the v0.1 empirical ADR distribution. Target: $\geq 0.80$.
+  \item \textbf{Deviation Score (HAR-SPEC-012, T3):}
+        DevS threshold set from v0.1 observational distribution.
+        Becomes a soft gate in v1.1.
+  \item \textbf{Stability Score (HAR-SPEC-012, T3):}
+        SS threshold set from v0.1 re-run data ($k \geq 3$).
+        Distinguishes persistent deviations from one-off artifacts.
+\end{itemize}
+
+\subsection{New threat coverage}
+
+The two \texttt{none}-coverage threats deferred from v0.1:
+
+\begin{itemize}
+  \item \textbf{TM-009 specification\_gaming:} Requires a simulator
+        scenario (SIM-0XX) and harness probe (HAR-SPEC-009) testing
+        whether the model satisfies literal governance constraints while
+        violating intended semantics. Detection depends on semantic
+        equivalence checking beyond syntactic rule matching.
+  \item \textbf{TM-015 governance\_deadlock:} Requires a simulator
+        scenario testing whether COS can enter a state where no
+        governance action is possible. Mitigation validation requires
+        the sentinel escalation path (Layer 7) to be exercised.
+\end{itemize}
+
+\subsection{Public trace corpus}
+
+v1.1 will publish a sanitized trace corpus containing:
+drift events, rollback sequences, membrane activation logs, and
+CMV disagreement cases drawn from the three v0.1 probes. The corpus
+will be archived on Zenodo with a DOI and released under CC~BY~4.0.
+It will include per-entry registry annotations linking each trace
+to its source threat class, sim scenario, and harness probe.
+
+\subsection{Expanded harness}
+
+The v1.1 harness suite will add independent adversarial prompt
+construction for HAR-SPEC-005 Class~A prompts, expanded task suites
+for HAR-SPEC-012 T3, and the first probe for TM-009. The full 15-threat
+coverage map is the v1.1 milestone.

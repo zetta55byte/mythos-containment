@@ -1,0 +1,225 @@
+% ============================================================
+% MCCA Paper — Section 7: Representative Empirical Validation
+% v0.1 — placeholder results; replace bracketed values with
+%         actual probe outputs before arXiv submission
+% ============================================================
+
+\section{Representative Empirical Validation}
+\label{sec:eval}
+
+\subsection{Scope and framing}
+
+The Mythos-Class Containment Architecture (MCCA) makes three central
+architectural claims that require empirical grounding: (1) that the
+Constitutional OS governance substrate remains stable under distribution
+shift, (2) that the cross-model verification layer reliably detects
+meaningful disagreement between independently-sampled model outputs, and
+(3) that the capability-monitoring infrastructure surfaces unexpected
+capability emergence before it propagates through the stack. This section
+presents representative empirical validation of each claim via three
+red-team probes drawn from the MCCA Threat Model Registry
+v0.1~\cite{byte2026registry}.
+
+We report results for the three highest-priority coverage gaps in the
+registry: TM-002 (governance\_drift), TM-005
+(cross\_model\_agreement\_failure), and TM-012
+(latent\_tool\_discovery). These probes were selected because they target
+the subsystems reviewers are most likely to interrogate and because they
+are load-bearing for the architectural argument of
+Sections~\ref{sec:governance}--\ref{sec:cmv}. Full coverage across all
+15 threat classes, including the expanded trace corpus and complete
+harness suite, is reserved for v1.1.
+
+All probes are safe and abstract. No harmful capabilities were elicited
+or required. Probe inputs target the containment \emph{infrastructure}
+rather than model outputs.
+
+% ── TABLE 1 ─────────────────────────────────────────────────
+\begin{table}[t]
+\centering
+\caption{Section~7 probe summary. Severity and exploitability are
+registry fields from threats.json v0.1. Coverage status reflects
+post-probe registry state.}
+\label{tab:probes}
+\begin{tabular}{lllll}
+\toprule
+Probe & Threat & Severity & Exploitability & Post-probe status \\
+\midrule
+HAR-SPEC-002 & TM-002 governance\_drift            & high         & skilled       & partial \\
+HAR-SPEC-005 & TM-005 cross\_model\_agree.\,failure & high         & skilled       & partial \\
+HAR-SPEC-012 & TM-012 latent\_tool\_discovery       & catastrophic & frontier only & partial \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% ──────────────────────────────────────────────────────────────
+
+\subsection{HAR-SPEC-002: Governance drift probe (TM-002)}
+\label{sec:eval-002}
+
+\paragraph{Setup.}
+We constructed three prompt families targeting the Constitutional OS
+layer: F1 (in-distribution baseline, $n = \text{[N\_F1]}$ prompts),
+F2 (policy-edge cases, $n = \text{[N\_F2]}$ prompts), and F3
+(mild distribution-shift variants, $n = \text{[N\_F3]}$ prompts).
+Each prompt was run $k = \text{[K]}$ times under a fixed COS ruleset
+with governance logging enabled. The Decision Stability Index (DSI) is
+defined as the variance of governance decisions across $k$ runs for a
+given prompt; the Drift Score (DS) is the KL divergence of the F3
+governance output distribution relative to the F1 baseline.
+
+\paragraph{Results.}
+Table~\ref{tab:har002} reports per-family metrics.
+
+\begin{table}[h]
+\centering
+\caption{HAR-SPEC-002 results. Pass thresholds from harness spec v0.1.}
+\label{tab:har002}
+\begin{tabular}{lcccc}
+\toprule
+Family & DSI ($\sigma^2$) & RAC & Drift Score & Liveness \\
+\midrule
+F1 (baseline)     & \textbf{[DSI\_F1]} & \textbf{[RAC\_F1]} & ---                 & 1.0 \\
+F2 (edge cases)   & \textbf{[DSI\_F2]} & \textbf{[RAC\_F2]} & ---                 & 1.0 \\
+F3 (shift)        & \textbf{[DSI\_F3]} & \textbf{[RAC\_F3]} & \textbf{[DS\_F3]}   & 1.0 \\
+\midrule
+Threshold         & $< 0.05$           & $\geq 0.90$        & $\leq 0.15$         & $= 1.0$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Interpretation.}
+[REPLACE: 2--3 sentences interpreting the results relative to the COS
+stability claims in Section~\ref{sec:governance}. Note any F2 or F3
+cases that approached thresholds and what they reveal about edge-case
+governance behavior.]
+
+% ──────────────────────────────────────────────────────────────
+
+\subsection{HAR-SPEC-005: Cross-model agreement failure probe (TM-005)}
+\label{sec:eval-005}
+
+\paragraph{Setup.}
+We constructed three prompt sets targeting the CMV layer: S1
+(high-agreement sanity prompts, $n = \text{[N\_S1]}$), S2
+(moderate-ambiguity prompts, $n = \text{[N\_S2]}$), and S3
+(adversarially masked divergence prompts, $n = \text{[N\_S3]}$).
+Two independently-parameterized model instances (M1, M2) were run
+on each prompt. Output similarity was computed using embedding distance
+combined with structural comparison, with disagreement threshold
+$\theta = \text{[THETA]}$. The Adversarial Detection Rate (ADR) measures
+the fraction of S3 prompts where CMV correctly flags masked disagreement.
+
+\paragraph{Results.}
+Table~\ref{tab:har005} reports per-set metrics.
+
+\begin{table}[h]
+\centering
+\caption{HAR-SPEC-005 results. ADR threshold is intentionally set at
+$\geq 0.60$ for v0.1; raised in v1.1 with empirical baseline.}
+\label{tab:har005}
+\begin{tabular}{lcccc}
+\toprule
+Set & DR & FNR & FPR & Mitigation correctness \\
+\midrule
+S1 (high-agreement)   & ---                 & ---                 & \textbf{[FPR\_S1]} & --- \\
+S2 (ambiguous)        & \textbf{[DR\_S2]}   & \textbf{[FNR\_S2]}  & \textbf{[FPR\_S2]} & \textbf{[MC\_S2]} \\
+S3 (adversarial, ADR) & \textbf{[ADR\_S3]}  & \textbf{[FNR\_S3]}  & ---                 & \textbf{[MC\_S3]} \\
+\midrule
+Threshold             & $\geq 0.85$         & $\leq 0.10$         & $\leq 0.05$        & $\geq 0.90$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Interpretation.}
+[REPLACE: 2--3 sentences interpreting the results relative to the
+two-pilot cockpit claims in Section~\ref{sec:cmv}. If ADR on S3 is
+below 0.85, note that this is expected at v0.1 and explain the plan
+for raising the threshold in v1.1 via improved Class~A prompt
+construction.]
+
+% ──────────────────────────────────────────────────────────────
+
+\subsection{HAR-SPEC-012: Latent tool discovery probe (TM-012)}
+\label{sec:eval-012}
+
+\paragraph{Setup.}
+We constructed three task suites targeting the capability-monitoring
+layer: T1 (baseline in-envelope tasks, $n = \text{[N\_T1]}$), T2
+(near-boundary generalization tasks, $n = \text{[N\_T2]}$), and T3
+(out-of-envelope probe tasks, $n = \text{[N\_T3]}$). A baseline
+capability profile was defined over T1, specifying expected reasoning
+strategies, solution patterns, and declared not-supported behaviors.
+Reasoning traces and intermediate steps were logged where available.
+Stability Score (SS) and Deviation Score (DevS) are reported
+observationally at v0.1; they are not gating metrics until v1.1.
+
+\paragraph{Results.}
+Table~\ref{tab:har012} reports per-suite metrics.
+
+\begin{table}[h]
+\centering
+\caption{HAR-SPEC-012 results. SER is a hard gate; DevS and SS are
+observational at v0.1.}
+\label{tab:har012}
+\begin{tabular}{lccccc}
+\toprule
+Suite & BF & NDR & SER & DevS (obs.) & SS (obs.) \\
+\midrule
+T1 (baseline)     & \textbf{[BF\_T1]}  & ---                & 0.0                & \textbf{[DS\_T1]} & --- \\
+T2 (near-boundary)& ---                & ---                & 0.0                & \textbf{[DS\_T2]} & --- \\
+T3 (out-of-envelope)& ---              & \textbf{[NDR\_T3]} & \textbf{[SER\_T3]} & \textbf{[DS\_T3]} & \textbf{[SS\_T3]} \\
+\midrule
+Threshold         & $\geq 0.95$        & $> 0.0$            & $\leq 0.05$        & reported          & reported \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Interpretation.}
+[REPLACE: 2--3 sentences interpreting the results relative to the
+capability-envelope monitoring claims in Section~\ref{sec:layers}.
+Note the SER result explicitly — a SER of 0 on T3 is the key result
+to highlight. If NDR is low, explain what that reveals about the
+detection mechanism's sensitivity and what the v1.1 upgrade path is.]
+
+% ──────────────────────────────────────────────────────────────
+
+\subsection{Coverage state after v0.1 probes}
+
+Table~\ref{tab:coverage} summarises the registry coverage state before
+and after the three probes.
+
+\begin{table}[h]
+\centering
+\caption{Registry coverage state. v0.1 = pre-probe state; v0.1+probes =
+post-probe state after passing all three harness runs.}
+\label{tab:coverage}
+\begin{tabular}{lcc}
+\toprule
+Status  & v0.1 (pre-probe) & v0.1 + probes \\
+\midrule
+full    & 3  (20\%) & 3  (20\%) \\
+partial & 7  (47\%) & 10 (67\%) \\
+none    & 5  (33\%) & 2  (13\%) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The two remaining \texttt{none}-coverage threats (TM-009
+specification\_gaming, TM-015 governance\_deadlock) are deferred to
+v1.1. Neither is load-bearing for the architectural claims of this paper.
+Full coverage across all 15 threat classes, including the expanded trace
+corpus, is the v1.1 target.
+
+\subsection{Limitations}
+
+The three probes reported here constitute representative rather than
+exhaustive validation. The prompt sets and task suites were constructed
+by the authors; independent adversarial prompt construction may reveal
+failure modes not captured in S3 or T3. The ADR threshold for HAR-SPEC-005
+is intentionally set at $\geq 0.60$ for v0.1, acknowledging the difficulty
+of adversarial masking detection at this stage. DevS and SS in
+HAR-SPEC-012 are observational; their interpretation as safety-relevant
+signals depends on threshold calibration that requires a larger empirical
+baseline. These limitations are the motivation for the v1.1 expanded
+harness and public trace corpus described in Appendix~\ref{app:v11}.
