@@ -7,7 +7,7 @@ This repository contains the reference implementation, figures, and companion ma
 
 - **UAG** (Unified Attractor Grammar) — mathematical foundation ([Zenodo](https://doi.org/10.5281/zenodo.19448508))
 - **Constitutional OS** — formal governance substrate ([Zenodo](https://doi.org/10.5281/zenodo.19258310))
-- **CARE** — runtime curvature and drift enforcement ([GitHub](https://github.com/zetta55byte/care))
+- **CARE** — runtime curvature and drift enforcement ([GitHub](https://github.com/mythos-platform/care))
 
 Together, these form a **theory → governance → runtime** pipeline for securing frontier-class, exploit-capable AI systems.
 
@@ -71,7 +71,7 @@ CARE operationalizes theory and governance at runtime. It provides:
 
 CARE is the runtime nervous system of the architecture.
 
-> GitHub: [zetta55byte/care](https://github.com/zetta55byte/care) · v0.2.0
+> GitHub: [mythos-platform/care](https://github.com/mythos-platform/care) · v0.2.0
 
 ---
 
@@ -113,9 +113,9 @@ These map directly to the figures referenced in the paper.
 
 **Figure 6.** The Mythos ecosystem integrates four layers:
 - **UAG** — theoretical foundation ([10.5281/zenodo.19448508](https://doi.org/10.5281/zenodo.19448508))
-- **Constitutional OS** — governance substrate ([github.com/zetta55byte/constitutional-os](https://github.com/zetta55byte/constitutional-os))
-- **CARE** — runtime enforcement ([github.com/zetta55byte/care](https://github.com/zetta55byte/care))
-- **Mythos-Class Containment Architecture** — full system ([github.com/zetta55byte/mythos-containment](https://github.com/zetta55byte/mythos-containment))
+- **Constitutional OS** — governance substrate ([github.com/mythos-platform/constitutional-os](https://github.com/mythos-platform/constitutional-os))
+- **CARE** — runtime enforcement ([github.com/mythos-platform/care](https://github.com/mythos-platform/care))
+- **Mythos-Class Containment Architecture** — full system ([github.com/mythos-platform/mythos-containment](https://github.com/mythos-platform/mythos-containment))
 
 All artifacts are cross-linked and archived under DOI [10.5281/zenodo.19464889](https://doi.org/10.5281/zenodo.19464889).
 
@@ -151,7 +151,7 @@ This repository is part of a three-paper ecosystem:
 |---|---|---|
 | UAG | Theoretical foundation | [10.5281/zenodo.19448508](https://doi.org/10.5281/zenodo.19448508) |
 | Constitutional OS | Governance substrate | [10.5281/zenodo.19258310](https://doi.org/10.5281/zenodo.19258310) |
-| CARE v0.2.0 | Runtime enforcement | [github.com/zetta55byte/care](https://github.com/zetta55byte/care) |
+| CARE v0.2.0 | Runtime enforcement | [github.com/mythos-platform/care](https://github.com/mythos-platform/care) |
 | hcderiv v0.4.0 | Exact Hessian computation | [10.5281/zenodo.19433812](https://doi.org/10.5281/zenodo.19433812) |
 
 Each work stands alone. Together they form the Mythos-Class Security Stack.
@@ -210,3 +210,4 @@ Each work stands alone. Together they form the Mythos-Class Security Stack.
 ## License
 
 MIT
+
